@@ -1,51 +1,146 @@
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Card, CardTitle, CardDescription } from "@/components/ui/card";
+import { CodeBlock } from "@/components/ui/code-block";
+import { DiffLine } from "@/components/ui/diff-line";
+import { TableRow } from "@/components/ui/table-row";
+import { ScoreRing } from "@/components/ui/score-ring";
 
-export default function ComponentsPage() {
+export default async function ComponentsPage() {
+  const exampleCode = `function calculateTotal(items) {
+  return items.reduce((acc, item) => {
+    return acc + item.price;
+  }, 0);
+}`;
+
   return (
-    <div className="p-10 space-y-12">
-      <section>
-        <h1 className="text-3xl font-bold mb-8">Component Library</h1>
-        
-        <div className="space-y-8">
-          <h2 className="text-xl font-semibold border-b border-zinc-800 pb-2">Button</h2>
-          
-          <div className="grid gap-8">
-            {/* Variants */}
-            <div className="space-y-4">
-              <h3 className="text-sm text-zinc-400 uppercase tracking-wider">Variants</h3>
-              <div className="flex flex-wrap gap-4 items-center">
-                <Button variant="primary">$ roast_my_code</Button>
-                <Button variant="secondary">Secondary</Button>
-                <Button variant="outline">Outline</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="danger">Danger</Button>
-              </div>
-            </div>
-
-            {/* Sizes */}
-            <div className="space-y-4">
-              <h3 className="text-sm text-zinc-400 uppercase tracking-wider">Sizes</h3>
-              <div className="flex flex-wrap gap-4 items-center">
-                <Button size="sm">Small</Button>
-                <Button size="default">Default</Button>
-                <Button size="lg">Large</Button>
-                <Button size="icon">
-                  <span>+</span>
-                </Button>
-              </div>
-            </div>
-
-            {/* States */}
-            <div className="space-y-4">
-              <h3 className="text-sm text-zinc-400 uppercase tracking-wider">States</h3>
-              <div className="flex flex-wrap gap-4 items-center">
-                <Button disabled>Disabled</Button>
-                <Button variant="outline" disabled>Disabled Outline</Button>
-              </div>
+    <div className="p-10 space-y-16 max-w-5xl mx-auto pb-32">
+      <header>
+        <h1 className="text-3xl font-bold mb-2 font-mono text-zinc-50 tracking-tight">
+          <span className="text-emerald-500">//</span> component_library
+        </h1>
+        <p className="text-zinc-400 text-sm font-mono">
+          Reusable UI components based on the Pencil design.
+        </p>
+      </header>
+      
+      <div className="space-y-16">
+        {/* Buttons */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> buttons
+          </h2>
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
+            <div className="flex flex-wrap gap-4 items-center">
+              <Button variant="primary">$ roast_my_code</Button>
+              <Button variant="secondary">Secondary</Button>
+              <Button variant="outline">Outline</Button>
+              <Button variant="ghost">Ghost</Button>
+              <Button variant="danger">Danger</Button>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Toggle */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> toggle
+          </h2>
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input font-mono">
+            <div className="flex flex-col gap-6">
+              <Switch defaultChecked label="ROAST MODE (ON)" />
+              <Switch label="ROAST MODE (OFF)" />
+            </div>
+          </div>
+        </section>
+
+        {/* Score Ring */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> score_ring
+          </h2>
+          <div className="grid grid-cols-3 gap-8 p-8 rounded-xl border border-border bg-bg-input place-items-center">
+            <ScoreRing score={2.1} />
+            <ScoreRing score={6.5} />
+            <ScoreRing score={9.8} />
+          </div>
+        </section>
+
+        {/* Leaderboard Table Row */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> table_row
+          </h2>
+          <div className="flex flex-col rounded-xl border border-border bg-bg-input overflow-hidden">
+            <TableRow rank={1} score={9.8} code="const total = items.reduce((acc, i) => acc + i, 0);" lang="typescript" />
+            <TableRow rank={2} score={7.2} code="let total = 0; items.forEach(i => total += i);" lang="javascript" />
+            <TableRow rank={3} score={2.1} code="var total = 0; for(var i=0; i<items.length; i++) { total = total + items[i]; }" lang="javascript" />
+          </div>
+        </section>
+
+        {/* Diff Line */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> diff_line
+          </h2>
+          <div className="flex flex-col rounded-xl border border-border bg-bg-input overflow-hidden">
+            <DiffLine type="context" code="function calculateTotal() {" />
+            <DiffLine type="removed" code="  var total = 0;" />
+            <DiffLine type="added" code="  const total = 0;" />
+            <DiffLine type="context" code="}" />
+          </div>
+        </section>
+
+        {/* Badges */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> badge_status
+          </h2>
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
+            <div className="flex flex-wrap gap-4 items-center">
+              <Badge variant="critical">Critical</Badge>
+              <Badge variant="warning">Warning</Badge>
+              <Badge variant="good">Good</Badge>
+              <Badge variant="secondary">Secondary</Badge>
+              <Badge variant="outline">Outline</Badge>
+            </div>
+          </div>
+        </section>
+
+        {/* Card */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> cards
+          </h2>
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
+            <Card className="max-w-md">
+              <div className="flex items-center gap-2 mb-2">
+                <Badge variant="warning">Optimization</Badge>
+                <Badge variant="secondary">JS</Badge>
+              </div>
+              <CardTitle>using var instead of const/let</CardTitle>
+              <CardDescription>
+                the var keyword is function-scoped rather than block-scoped, which can lead to unexpected behavior and bugs. modern javascript uses const for immutable bindings and let for mutable ones.
+              </CardDescription>
+            </Card>
+          </div>
+        </section>
+
+        {/* Code Block */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> code_block
+          </h2>
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
+            <CodeBlock 
+              code={exampleCode} 
+              lang="javascript" 
+              filename="calculate-total.js" 
+            />
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
