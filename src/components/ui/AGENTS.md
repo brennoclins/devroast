@@ -7,12 +7,23 @@ Este documento define os padrões para criação de novos componentes na pasta `
 - Nome do arquivo: kebab-case (ex: `button.tsx`, `input-field.tsx`)
 - Documentação de diretório: Sempre use `AGENTS.md` (todo em maiúsculas) para arquivos de instrução de agentes dentro das pastas.
 
-## 2. Tecnologias Obrigatórias
+## 2. Tecnologias e Tokens
 - **Tailwind CSS v4**: Para estilização baseada em tokens.
-- **tailwind-variants (TV)**: Para gerenciamento de variantes e estados.
-- **tailwind-merge + clsx**: Utilizar o utilitário `cn()` para mesclar classes.
+- **Tokens do Design**:
+  - `--color-accent-green`: #10B981
+  - `--color-accent-red`: #EF4444
+  - `--color-bg-page`: #0A0A0A
+  - `--color-bg-input`: #111111
+  - `--color-border-primary`: #2A2A2A
+- **Desenvolvimento**: `tailwind-variants`, `base-ui`, `shiki`.
 
-## 3. Padrões de Código
+## 3. Componentes Implementados
+- **Button**: Variantes primary, secondary, outline, ghost.
+- **Badge**: Status critical, warning, good.
+- **Switch**: Toggle com label (v-variants slots).
+- **Card**: Container para análises.
+- **DiffLine**: Linhas de comparação de código.
+- **CodeBlock**: Server component com Shiki (tema Vesper).
 - **Named Exports**: Nunca usar `default exports`. Use `export function Component() {}`.
 - **TypeScript**:
   - Sempre extender as propriedades nativas do elemento HTML correspondente (ex: `ComponentProps<"div">`).
