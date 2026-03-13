@@ -1,6 +1,7 @@
 {
   "name": "devroast",
   "version": "0.1.0",
+  "author": "Brenno C. Lins",
   "private": true,
   "scripts": {
     "dev": "next dev",
