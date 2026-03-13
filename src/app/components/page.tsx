@@ -4,6 +4,8 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import { CodeBlock } from "@/components/ui/code-block";
 import { DiffLine } from "@/components/ui/diff-line";
+import { TableRow } from "@/components/ui/table-row";
+import { ScoreRing } from "@/components/ui/score-ring";
 
 export default async function ComponentsPage() {
   const exampleCode = `function calculateTotal(items) {
@@ -13,7 +15,7 @@ export default async function ComponentsPage() {
 }`;
 
   return (
-    <div className="p-10 space-y-16 max-w-5xl mx-auto">
+    <div className="p-10 space-y-16 max-w-5xl mx-auto pb-32">
       <header>
         <h1 className="text-3xl font-bold mb-2 font-mono text-zinc-50 tracking-tight">
           <span className="text-emerald-500">//</span> component_library
@@ -29,7 +31,7 @@ export default async function ComponentsPage() {
           <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
             <span className="text-emerald-500">//</span> buttons
           </h2>
-          <div className="grid gap-8 p-6 rounded-xl border border-border-primary bg-bg-input">
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
             <div className="flex flex-wrap gap-4 items-center">
               <Button variant="primary">$ roast_my_code</Button>
               <Button variant="secondary">Secondary</Button>
@@ -45,11 +47,35 @@ export default async function ComponentsPage() {
           <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
             <span className="text-emerald-500">//</span> toggle
           </h2>
-          <div className="grid gap-8 p-6 rounded-xl border border-border-primary bg-bg-input font-mono">
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input font-mono">
             <div className="flex flex-col gap-6">
               <Switch defaultChecked label="ROAST MODE (ON)" />
               <Switch label="ROAST MODE (OFF)" />
             </div>
+          </div>
+        </section>
+
+        {/* Score Ring */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> score_ring
+          </h2>
+          <div className="grid grid-cols-3 gap-8 p-8 rounded-xl border border-border bg-bg-input place-items-center">
+            <ScoreRing score={2.1} />
+            <ScoreRing score={6.5} />
+            <ScoreRing score={9.8} />
+          </div>
+        </section>
+
+        {/* Leaderboard Table Row */}
+        <section className="space-y-6">
+          <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-emerald-500">//</span> table_row
+          </h2>
+          <div className="flex flex-col rounded-xl border border-border bg-bg-input overflow-hidden">
+            <TableRow rank={1} score={9.8} code="const total = items.reduce((acc, i) => acc + i, 0);" lang="typescript" />
+            <TableRow rank={2} score={7.2} code="let total = 0; items.forEach(i => total += i);" lang="javascript" />
+            <TableRow rank={3} score={2.1} code="var total = 0; for(var i=0; i<items.length; i++) { total = total + items[i]; }" lang="javascript" />
           </div>
         </section>
 
@@ -58,7 +84,7 @@ export default async function ComponentsPage() {
           <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
             <span className="text-emerald-500">//</span> diff_line
           </h2>
-          <div className="flex flex-col rounded-xl border border-border-primary bg-bg-input overflow-hidden">
+          <div className="flex flex-col rounded-xl border border-border bg-bg-input overflow-hidden">
             <DiffLine type="context" code="function calculateTotal() {" />
             <DiffLine type="removed" code="  var total = 0;" />
             <DiffLine type="added" code="  const total = 0;" />
@@ -71,7 +97,7 @@ export default async function ComponentsPage() {
           <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
             <span className="text-emerald-500">//</span> badge_status
           </h2>
-          <div className="grid gap-8 p-6 rounded-xl border border-border-primary bg-bg-input">
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
             <div className="flex flex-wrap gap-4 items-center">
               <Badge variant="critical">Critical</Badge>
               <Badge variant="warning">Warning</Badge>
@@ -87,7 +113,7 @@ export default async function ComponentsPage() {
           <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
             <span className="text-emerald-500">//</span> cards
           </h2>
-          <div className="grid gap-8 p-6 rounded-xl border border-border-primary bg-bg-input">
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
             <Card className="max-w-md">
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="warning">Optimization</Badge>
@@ -106,7 +132,7 @@ export default async function ComponentsPage() {
           <h2 className="text-sm font-bold font-mono text-zinc-50 uppercase tracking-widest flex items-center gap-2">
             <span className="text-emerald-500">//</span> code_block
           </h2>
-          <div className="grid gap-8 p-6 rounded-xl border border-border-primary bg-bg-input">
+          <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
             <CodeBlock 
               code={exampleCode} 
               lang="javascript" 

@@ -6,8 +6,8 @@ const diffLine = tv({
   base: "flex items-start gap-2 px-4 py-2 font-mono text-[13px] transition-colors w-full",
   variants: {
     type: {
-      added: "bg-[#0A1A0F] text-zinc-50",
-      removed: "bg-[#1A0A0A] text-zinc-400",
+      added: "bg-accent-green/10 text-zinc-50",
+      removed: "bg-accent-red/10 text-zinc-400",
       context: "bg-transparent text-zinc-400",
     },
   },

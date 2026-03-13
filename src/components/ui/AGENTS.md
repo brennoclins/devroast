@@ -24,6 +24,8 @@ Este documento define os padrões para criação de novos componentes na pasta `
 - **Card**: Container para análises.
 - **DiffLine**: Linhas de comparação de código.
 - **CodeBlock**: Server component com Shiki (tema Vesper).
+- **TableRow**: Linha de ranking para o leaderboard.
+- **ScoreRing**: Indicador circular de pontuação (0-10).
 - **Named Exports**: Nunca usar `default exports`. Use `export function Component() {}`.
 - **TypeScript**:
   - Sempre extender as propriedades nativas do elemento HTML correspondente (ex: `ComponentProps<"div">`).

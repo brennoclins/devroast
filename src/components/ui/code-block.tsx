@@ -23,9 +23,9 @@ export async function CodeBlock({
   });
 
   return (
-    <div className={cn("flex flex-col rounded-lg border border-zinc-800 bg-[#101010] overflow-hidden", className)}>
+    <div className={cn("flex flex-col rounded-lg border border-border bg-bg-input overflow-hidden", className)}>
       {filename && (
-        <div className="flex items-center px-4 py-2 border-b border-zinc-800 bg-[#0C0C0C]">
+        <div className="flex items-center px-4 py-2 border-b border-border bg-bg/50">
           <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">
             {filename}
           </span>

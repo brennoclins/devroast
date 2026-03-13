@@ -3,11 +3,11 @@ import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "@/utils/cn";
 
 const card = tv({
-  base: "rounded-lg border border-zinc-800 bg-zinc-950/50 p-5 space-y-3",
+  base: "rounded-lg border border-border bg-bg-input p-5 space-y-3",
   variants: {
     variant: {
-      default: "bg-zinc-950",
-      bordered: "border-zinc-800",
+      default: "bg-bg-input",
+      bordered: "border-border",
       elevated: "shadow-lg bg-zinc-900",
     },
   },

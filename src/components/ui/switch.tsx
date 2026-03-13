@@ -38,7 +38,7 @@ export function Switch({
         onCheckedChange={handleCheckedChange}
         className={cn(
           "relative inline-flex h-[22px] w-10 shrink-0 cursor-pointer items-center rounded-full transition-colors outline-none",
-          isChecked ? "bg-[#10B981]" : "bg-[#2A2A2A]",
+          isChecked ? "bg-accent-green" : "bg-border",
           className
         )}
         {...props}
@@ -46,7 +46,7 @@ export function Switch({
         <SwitchPrimitive.Thumb
           className={cn(
             "pointer-events-none block h-4 w-4 rounded-full transition-all ring-0",
-            isChecked ? "translate-x-[21px] bg-[#0A0A0A]" : "translate-x-[3px] bg-[#6B7280]"
+            isChecked ? "translate-x-[21px] bg-bg" : "translate-x-[3px] bg-[#6B7280]"
           )}
         />
       </SwitchPrimitive.Root>
@@ -55,7 +55,7 @@ export function Switch({
           onClick={() => handleCheckedChange(!isChecked, { reason: 'none' } as CheckedChangeDetails)}
           className={cn(
             "text-[12px] font-mono select-none uppercase transition-colors font-bold cursor-pointer",
-            isChecked ? "text-[#10B981]" : "text-[#6B7280]"
+            isChecked ? "text-accent-green" : "text-[#6B7280]"
           )}
         >
           {label}
