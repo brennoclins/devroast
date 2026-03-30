@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "DevRoast project",
 };
 
+import { Navbar } from "@/components/layout/navbar";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -19,8 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={jetbrainsMono.variable}>
-      <body className="antialiased text-zinc-50 bg-zinc-950">
-        {children}
+      <body className="antialiased text-zinc-50 bg-bg min-h-screen">
+        <Navbar />
+        <main className="pt-14">
+          {children}
+        </main>
       </body>
     </html>
   );
