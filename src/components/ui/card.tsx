@@ -16,20 +16,15 @@ const card = tv({
   },
 });
 
-export interface CardProps
+export interface CardRootProps
   extends ComponentProps<"div">,
     VariantProps<typeof card> {}
 
-export function Card({ className, variant, ...props }: CardProps) {
-  return (
-    <div
-      className={cn(card({ variant }), className)}
-      {...props}
-    />
-  );
+function CardRoot({ className, variant, ...props }: CardRootProps) {
+  return <div className={cn(card({ variant }), className)} {...props} />;
 }
 
-export function CardTitle({ className, ...props }: ComponentProps<"h3">) {
+function CardTitle({ className, ...props }: ComponentProps<"h3">) {
   return (
     <h3
       className={cn("text-sm font-mono font-medium text-zinc-50", className)}
@@ -38,11 +33,20 @@ export function CardTitle({ className, ...props }: ComponentProps<"h3">) {
   );
 }
 
-export function CardDescription({ className, ...props }: ComponentProps<"p">) {
+function CardDescription({ className, ...props }: ComponentProps<"p">) {
   return (
     <p
-      className={cn("text-xs font-mono text-zinc-400 leading-relaxed", className)}
+      className={cn(
+        "text-xs font-mono text-zinc-400 leading-relaxed",
+        className,
+      )}
       {...props}
     />
   );
 }
+
+export {
+  CardRoot as Root,
+  CardTitle as Title,
+  CardDescription as Description,
+};

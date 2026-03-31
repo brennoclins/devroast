@@ -23,9 +23,7 @@ export default function RootLayout({
     <html lang="pt-BR" className={jetbrainsMono.variable}>
       <body className="antialiased text-zinc-50 bg-bg min-h-screen">
         <Navbar />
-        <main className="pt-14">
-          {children}
-        </main>
+        <main className="pt-14">{children}</main>
       </body>
     </html>
   );

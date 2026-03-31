@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { TableRow } from "@/components/ui/table-row";
+import * as Switch from "@/components/ui/switch";
+import * as TableRow from "@/components/ui/table-row";
 
 export default function Home() {
   return (
@@ -40,8 +40,15 @@ export default function Home() {
 
         {/* Actions Bar */}
         <div className="flex items-center justify-between w-full">
-          <Switch label="ROAST MODE" defaultChecked />
-          <Button variant="primary" size="lg" className="px-8 shadow-xl shadow-accent-green/10">
+          <Switch.Root defaultChecked>
+            <Switch.Control />
+            <Switch.Label>ROAST MODE</Switch.Label>
+          </Switch.Root>
+          <Button
+            variant="primary"
+            size="lg"
+            className="px-8 shadow-xl shadow-accent-green/10"
+          >
             $ roast_my_code
           </Button>
         </div>
@@ -67,28 +74,44 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col rounded-xl border border-border bg-bg-input overflow-hidden shadow-xl">
-          <TableRow
-            rank={1}
-            score={1.2}
-            code="function check(a) { if (a == true) { return true } else { return false } }"
-            lang="javascript"
-          />
-          <TableRow
-            rank={2}
-            score={2.4}
-            code="const data = JSON.parse(JSON.stringify(oldData)); // deep clone"
-            lang="typescript"
-          />
-          <TableRow
-            rank={3}
-            score={3.1}
-            code="try { doSomething() } catch (e) { console.log('error happened') }"
-            lang="javascript"
-          />
+          <TableRow.Root>
+            <TableRow.Rank>1</TableRow.Rank>
+            <TableRow.Score value={1.2} />
+            <TableRow.Code>
+              {
+                "function check(a) { if (a == true) { return true } else { return false } }"
+              }
+            </TableRow.Code>
+            <TableRow.Lang>javascript</TableRow.Lang>
+          </TableRow.Root>
+          <TableRow.Root>
+            <TableRow.Rank>2</TableRow.Rank>
+            <TableRow.Score value={2.4} />
+            <TableRow.Code>
+              {
+                "const data = JSON.parse(JSON.stringify(oldData)); // deep clone"
+              }
+            </TableRow.Code>
+            <TableRow.Lang>typescript</TableRow.Lang>
+          </TableRow.Root>
+          <TableRow.Root>
+            <TableRow.Rank>3</TableRow.Rank>
+            <TableRow.Score value={3.1} />
+            <TableRow.Code>
+              {
+                "try { doSomething() } catch (e) { console.log('error happened') }"
+              }
+            </TableRow.Code>
+            <TableRow.Lang>javascript</TableRow.Lang>
+          </TableRow.Root>
         </div>
 
         <div className="flex justify-center mt-6">
-          <Button variant="outline" size="sm" className="font-mono text-[11px] uppercase tracking-widest">
+          <Button
+            variant="outline"
+            size="sm"
+            className="font-mono text-[11px] uppercase tracking-widest"
+          >
             view full leaderboard
           </Button>
         </div>

@@ -10,7 +10,12 @@ export interface ScoreRingProps extends ComponentProps<"div"> {
  * ScoreRing component that displays a numeric score (0-10) with a circular progress indicator.
  * Based on the Pencil design specifications.
  */
-export function ScoreRing({ score, size = 180, className, ...props }: ScoreRingProps) {
+export function ScoreRing({
+  score,
+  size = 180,
+  className,
+  ...props
+}: ScoreRingProps) {
   const radius = (size - 8) / 2; // Subtracting thickness (4px * 2)
   const circumference = 2 * Math.PI * radius;
   const clampedScore = Math.max(0, Math.min(10, score));
@@ -25,7 +30,7 @@ export function ScoreRing({ score, size = 180, className, ...props }: ScoreRingP
   };
 
   return (
-    <div 
+    <div
       className={cn("relative flex items-center justify-center", className)}
       style={{ width: size, height: size }}
       {...props}
@@ -41,7 +46,7 @@ export function ScoreRing({ score, size = 180, className, ...props }: ScoreRingP
           strokeWidth="4"
           className="transition-colors"
         />
-        
+
         {/* Progress Arc */}
         <circle
           cx={size / 2}
@@ -53,18 +58,19 @@ export function ScoreRing({ score, size = 180, className, ...props }: ScoreRingP
           strokeDasharray={circumference}
           strokeDashoffset={offset}
           strokeLinecap="round"
-          className={cn("transition-all duration-500 ease-out", getScoreColor(clampedScore))}
+          className={cn(
+            "transition-all duration-500 ease-out",
+            getScoreColor(clampedScore),
+          )}
         />
       </svg>
-      
+
       {/* Score Text */}
       <div className="flex flex-col items-center justify-center font-mono leading-none">
         <span className="text-[48px] font-bold text-zinc-50 tracking-tighter">
           {clampedScore.toFixed(1)}
         </span>
-        <span className="text-[16px] text-zinc-500">
-          /10
-        </span>
+        <span className="text-[16px] text-zinc-500">/10</span>
       </div>
     </div>
   );
