@@ -63,24 +63,27 @@ A abordagem do ray-so é a mais adequada para o DevRoast:
 | Detecção | `highlight.js` (`highlightAuto`) |
 | State | React `useState` + `useCallback` (sem libs extras) |
 | Estilos | Tailwind CSS v4 |
-| Line Numbers | Renderizadas no highlight layer |
+| Line Numbers | Coluna separada à esquerda (estilo VS Code) |
+| Auto-resize | `scrollHeight` measurement |
+| Language Selector | `<select>` nativo estilizado |
 
 ### Estrutura de Arquivos
 
 ```
 src/
 ├── components/ui/
-│   ├── code-editor/
-│   │   ├── index.tsx           # Namespace export (Client Component)
-│   │   ├── editor-root.tsx     # Container CSS Grid stack + border/glow
-│   │   ├── editor-textarea.tsx # Input layer (transparente, auto-indent)
-│   │   ├── editor-highlight.tsx # Shiki output layer + line numbers
-│   │   └── editor-toolbar.tsx  # Filename + language selector
-│   └── language-selector.tsx   # Dropdown headless (Base UI)
+│   └── code-editor/
+│       ├── index.tsx              # Namespace export (Client Component)
+│       ├── editor-root.tsx        # Container CSS Grid stack + border/glow
+│       ├── editor-textarea.tsx    # Input layer (transparente, auto-indent)
+│       ├── editor-highlight.tsx   # Shiki output layer
+│       ├── editor-line-numbers.tsx # Line numbers column (VS Code style)
+│       ├── editor-toolbar.tsx     # Filename + language selector
+│       └── language-selector.tsx  # <select> nativo estilizado
 ├── lib/
-│   ├── highlighter.ts          # Singleton Shiki (getHighlighterCore)
-│   └── language-detect.ts      # Wrapper highlight.js
-└── app/page.tsx                # Atualizado com novo editor
+│   ├── highlighter.ts             # Singleton Shiki (getHighlighterCore)
+│   └── language-detect.ts         # Wrapper highlight.js
+└── app/page.tsx                   # Atualizado com novo editor
 ```
 
 ### Fluxo de Dados
@@ -92,6 +95,8 @@ onChange dispara:
   1. highlight.js detecta linguagem automaticamente
   2. Shiki gera HTML com cores (via highlighter instance)
   3. Highlight layer é atualizada com dangerouslySetInnerHTML
+  4. Line numbers são recalculadas (count de linhas)
+  5. Auto-resize via scrollHeight
         ↓
 Se usuário selecionar linguagem manualmente:
   - Override da detecção automática
@@ -137,7 +142,7 @@ Grammars carregadas via lazy import (`shiki/langs/*.mjs`).
 | Fonte | JetBrains Mono (já configurada) |
 | Tamanho | 13px, line-height reláxavel |
 | Shiki Theme | `vesper` (mantido, igual ao code-block) |
-| Altura | Auto-resize com conteúdo |
+| Altura | Auto-resize com conteúdo (scrollHeight) |
 | Persistência | Apenas em memória (por enquanto) |
 
 ### ROAST MODE — Diferenças Visuais
@@ -218,6 +223,57 @@ Caret controlado via CSS inline:
 }
 ```
 
+### Auto-Resize via scrollHeight
+
+```tsx
+const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+const handleResize = () => {
+  const el = textareaRef.current;
+  if (el) {
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  }
+};
+
+// Chamar no onChange e no mount
+```
+
+### Line Numbers (VS Code Style)
+
+Coluna separada à esquerda do conteúdo, com fundo levemente diferente:
+
+```tsx
+function LineNumbers({ lineCount }: { lineCount: number }) {
+  return (
+    <div className="flex flex-col items-end pr-3 select-none text-zinc-600 font-mono text-[13px] leading-relaxed bg-bg/30">
+      {Array.from({ length: lineCount }, (_, i) => (
+        <span key={i + 1}>{i + 1}</span>
+      ))}
+    </div>
+  );
+}
+```
+
+- Mesma altura de linha (`leading-relaxed` = `line-height` do textarea)
+- Mesma fonte (`font-mono` = JetBrains Mono)
+- Padding vertical idêntico ao textarea para alinhamento perfeito
+
+### Language Selector (`<select>` nativo)
+
+```tsx
+<select
+  value={selectedLang}
+  onChange={(e) => onLangChange(e.target.value)}
+  className="appearance-none bg-bg-input border border-border rounded px-2 py-1 text-xs font-mono text-zinc-400 cursor-pointer outline-none focus:border-accent-green"
+>
+  <option value="auto">Auto-Detect</option>
+  {languages.map((lang) => (
+    <option key={lang.id} value={lang.id}>{lang.name}</option>
+  ))}
+</select>
+```
+
 ### Shiki v4 API (getHighlighterCore)
 
 ```ts
@@ -251,18 +307,19 @@ const detected = result.language; // "javascript", "python", etc.
 ## ✅ TODOs
 
 ### Fase 1 — Setup e Core
-- [ ] 1.1. Instalar `highlight.js` (`pnpm add highlight.js @types/highlight.js`)
+- [ ] 1.1. Instalar `highlight.js` (`pnpm add highlight.js`)
 - [ ] 1.2. Criar `src/lib/highlighter.ts` — inicialização singleton do Shiki com `getHighlighterCore`
 - [ ] 1.3. Criar `src/lib/language-detect.ts` — wrapper de `highlight.js` auto-detect
 - [ ] 1.4. Definir mapa de linguagens suportadas com lazy imports
 
 ### Fase 2 — Componentes do Editor
 - [ ] 2.1. Criar `src/components/ui/code-editor/editor-root.tsx` — container com CSS Grid stack, border/glow condicional (roastMode)
-- [ ] 2.2. Criar `src/components/ui/code-editor/editor-textarea.tsx` — input layer com texto transparente, auto-indent, caret condicional
-- [ ] 2.3. Criar `src/components/ui/code-editor/editor-highlight.tsx` — highlight layer com Shiki + line numbers
-- [ ] 2.4. Criar `src/components/ui/code-editor/editor-toolbar.tsx` — toolbar com filename condicional + language selector
-- [ ] 2.5. Criar `src/components/ui/code-editor/index.tsx` — export namespace (Client Component)
-- [ ] 2.6. Criar `src/components/ui/language-selector.tsx` — dropdown de seleção de linguagem (Base UI)
+- [ ] 2.2. Criar `src/components/ui/code-editor/editor-textarea.tsx` — input layer com texto transparente, auto-indent, caret condicional, auto-resize via scrollHeight
+- [ ] 2.3. Criar `src/components/ui/code-editor/editor-highlight.tsx` — highlight layer com Shiki
+- [ ] 2.4. Criar `src/components/ui/code-editor/editor-line-numbers.tsx` — coluna de line numbers estilo VS Code
+- [ ] 2.5. Criar `src/components/ui/code-editor/editor-toolbar.tsx` — toolbar com filename condicional + language selector
+- [ ] 2.6. Criar `src/components/ui/code-editor/language-selector.tsx` — `<select>` nativo estilizado com opção "Auto-Detect"
+- [ ] 2.7. Criar `src/components/ui/code-editor/index.tsx` — export namespace (Client Component)
 
 ### Fase 3 — Integração
 - [ ] 3.1. Atualizar `src/app/page.tsx` para usar o novo `<CodeEditor>` no lugar do `<textarea>` cru
@@ -281,9 +338,9 @@ const detected = result.language; // "javascript", "python", etc.
 
 ## ⚠️ Pontos de Atenção
 
-1. **Shiki v4 API:** `getHighlighterCore` + WASM é diferente da v1 usada no ray-so
-2. **Line numbers:** Precisam estar sincronizadas com o conteúdo do textarea (mesma altura de linha)
-3. **Scroll sync:** Se o conteúdo ultrapassar a altura, textarea e highlight precisam scrollar juntos
-4. **SSR:** Shiki WASM é client-side → pode precisar de `NoSSR` ou loading state
-5. **Base UI combobox:** Para o language selector, usar primitivo headless do `@base-ui/react`
+1. **Shiki v4 API:** `getHighlighterCore` + WASM é diferente da v1 usada no ray-so — verificar sintaxe de imports de themes/langs
+2. **Line numbers:** Coluna separada à esquerda (VS Code style) com `line-height`, fonte e padding idênticos ao textarea para alinhamento perfeito
+3. **Auto-resize:** Via `scrollHeight` — reset para `auto` antes de medir para evitar shrink bugs
+4. **Scroll sync:** Se o conteúdo ultrapassar a altura, textarea e highlight precisam scrollar juntos
+5. **SSR:** Shiki WASM é client-side → pode precisar de `NoSSR` ou loading state
 6. **Convenções do projeto:** Named exports apenas, `ComponentProps<"element">`, `cn()` para classes, `tv({})` para variantes
