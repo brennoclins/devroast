@@ -117,8 +117,4 @@ function SwitchLabel({ className, children, ...props }: SwitchLabelProps) {
   );
 }
 
-export {
-  SwitchRoot as Root,
-  SwitchControl as Control,
-  SwitchLabel as Label,
-};
+export { SwitchRoot as Root, SwitchControl as Control, SwitchLabel as Label };

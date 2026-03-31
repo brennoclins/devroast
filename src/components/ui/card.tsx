@@ -45,8 +45,4 @@ function CardDescription({ className, ...props }: ComponentProps<"p">) {
   );
 }
 
-export {
-  CardRoot as Root,
-  CardTitle as Title,
-  CardDescription as Description,
-};
+export { CardRoot as Root, CardTitle as Title, CardDescription as Description };
