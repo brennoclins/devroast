@@ -31,9 +31,6 @@ export interface ButtonProps
 
 export function Button({ className, variant, size, ...props }: ButtonProps) {
   return (
-    <button
-      className={cn(button({ variant, size }), className)}
-      {...props}
-    />
+    <button className={cn(button({ variant, size }), className)} {...props} />
   );
 }

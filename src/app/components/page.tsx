@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { Card, CardTitle, CardDescription } from "@/components/ui/card";
-import { CodeBlock } from "@/components/ui/code-block";
-import { DiffLine } from "@/components/ui/diff-line";
-import { TableRow } from "@/components/ui/table-row";
+import { Button } from "@/components/ui/button";
+import * as Card from "@/components/ui/card";
+import * as CodeBlock from "@/components/ui/code-block";
+import * as DiffLine from "@/components/ui/diff-line";
 import { ScoreRing } from "@/components/ui/score-ring";
+import * as Switch from "@/components/ui/switch";
+import * as TableRow from "@/components/ui/table-row";
 
 export default async function ComponentsPage() {
   const exampleCode = `function calculateTotal(items) {
@@ -24,7 +24,7 @@ export default async function ComponentsPage() {
           Reusable UI components based on the Pencil design.
         </p>
       </header>
-      
+
       <div className="space-y-16">
         {/* Buttons */}
         <section className="space-y-6">
@@ -49,8 +49,14 @@ export default async function ComponentsPage() {
           </h2>
           <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input font-mono">
             <div className="flex flex-col gap-6">
-              <Switch defaultChecked label="ROAST MODE (ON)" />
-              <Switch label="ROAST MODE (OFF)" />
+              <Switch.Root defaultChecked>
+                <Switch.Control />
+                <Switch.Label>ROAST MODE (ON)</Switch.Label>
+              </Switch.Root>
+              <Switch.Root>
+                <Switch.Control />
+                <Switch.Label>ROAST MODE (OFF)</Switch.Label>
+              </Switch.Root>
             </div>
           </div>
         </section>
@@ -73,9 +79,32 @@ export default async function ComponentsPage() {
             <span className="text-emerald-500">//</span> table_row
           </h2>
           <div className="flex flex-col rounded-xl border border-border bg-bg-input overflow-hidden">
-            <TableRow rank={1} score={9.8} code="const total = items.reduce((acc, i) => acc + i, 0);" lang="typescript" />
-            <TableRow rank={2} score={7.2} code="let total = 0; items.forEach(i => total += i);" lang="javascript" />
-            <TableRow rank={3} score={2.1} code="var total = 0; for(var i=0; i<items.length; i++) { total = total + items[i]; }" lang="javascript" />
+            <TableRow.Root>
+              <TableRow.Rank>1</TableRow.Rank>
+              <TableRow.Score value={9.8} />
+              <TableRow.Code>
+                {"const total = items.reduce((acc, i) => acc + i, 0);"}
+              </TableRow.Code>
+              <TableRow.Lang>typescript</TableRow.Lang>
+            </TableRow.Root>
+            <TableRow.Root>
+              <TableRow.Rank>2</TableRow.Rank>
+              <TableRow.Score value={7.2} />
+              <TableRow.Code>
+                {"let total = 0; items.forEach(i => total += i);"}
+              </TableRow.Code>
+              <TableRow.Lang>javascript</TableRow.Lang>
+            </TableRow.Root>
+            <TableRow.Root>
+              <TableRow.Rank>3</TableRow.Rank>
+              <TableRow.Score value={2.1} />
+              <TableRow.Code>
+                {
+                  "var total = 0; for(var i=0; i<items.length; i++) { total = total + items[i]; }"
+                }
+              </TableRow.Code>
+              <TableRow.Lang>javascript</TableRow.Lang>
+            </TableRow.Root>
           </div>
         </section>
 
@@ -85,10 +114,24 @@ export default async function ComponentsPage() {
             <span className="text-emerald-500">//</span> diff_line
           </h2>
           <div className="flex flex-col rounded-xl border border-border bg-bg-input overflow-hidden">
-            <DiffLine type="context" code="function calculateTotal() {" />
-            <DiffLine type="removed" code="  var total = 0;" />
-            <DiffLine type="added" code="  const total = 0;" />
-            <DiffLine type="context" code="}" />
+            <DiffLine.Root type="context">
+              <DiffLine.Prefix />
+              <DiffLine.Content>
+                {"function calculateTotal() {"}
+              </DiffLine.Content>
+            </DiffLine.Root>
+            <DiffLine.Root type="removed">
+              <DiffLine.Prefix />
+              <DiffLine.Content>{"  var total = 0;"}</DiffLine.Content>
+            </DiffLine.Root>
+            <DiffLine.Root type="added">
+              <DiffLine.Prefix />
+              <DiffLine.Content>{"  const total = 0;"}</DiffLine.Content>
+            </DiffLine.Root>
+            <DiffLine.Root type="context">
+              <DiffLine.Prefix />
+              <DiffLine.Content>{"}"}</DiffLine.Content>
+            </DiffLine.Root>
           </div>
         </section>
 
@@ -114,16 +157,19 @@ export default async function ComponentsPage() {
             <span className="text-emerald-500">//</span> cards
           </h2>
           <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
-            <Card className="max-w-md">
+            <Card.Root className="max-w-md">
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="warning">Optimization</Badge>
                 <Badge variant="secondary">JS</Badge>
               </div>
-              <CardTitle>using var instead of const/let</CardTitle>
-              <CardDescription>
-                the var keyword is function-scoped rather than block-scoped, which can lead to unexpected behavior and bugs. modern javascript uses const for immutable bindings and let for mutable ones.
-              </CardDescription>
-            </Card>
+              <Card.Title>using var instead of const/let</Card.Title>
+              <Card.Description>
+                the var keyword is function-scoped rather than block-scoped,
+                which can lead to unexpected behavior and bugs. modern
+                javascript uses const for immutable bindings and let for mutable
+                ones.
+              </Card.Description>
+            </Card.Root>
           </div>
         </section>
 
@@ -133,11 +179,10 @@ export default async function ComponentsPage() {
             <span className="text-emerald-500">//</span> code_block
           </h2>
           <div className="grid gap-8 p-6 rounded-xl border border-border bg-bg-input">
-            <CodeBlock 
-              code={exampleCode} 
-              lang="javascript" 
-              filename="calculate-total.js" 
-            />
+            <CodeBlock.Root>
+              <CodeBlock.Header>calculate-total.js</CodeBlock.Header>
+              <CodeBlock.Content lang="javascript" code={exampleCode} />
+            </CodeBlock.Root>
           </div>
         </section>
       </div>

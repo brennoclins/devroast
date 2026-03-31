@@ -1,4 +1,5 @@
-import type { ComponentProps } from "react";
+"use client";
+import React, { type ComponentProps } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "@/utils/cn";
 
@@ -16,29 +17,83 @@ const diffLine = tv({
   },
 });
 
-export interface DiffLineProps
-  extends ComponentProps<"div">,
-    VariantProps<typeof diffLine> {
-  code: string;
+type DiffType = VariantProps<typeof diffLine>["type"];
+
+const DiffLineContext = React.createContext<{ type?: DiffType } | null>(null);
+
+function useDiffLineContext() {
+  return React.useContext(DiffLineContext) || { type: "context" };
 }
 
-export function DiffLine({ className, type, code, ...props }: DiffLineProps) {
-  const prefix = type === "added" ? "+" : type === "removed" ? "-" : " ";
-  
+export interface DiffLineRootProps
+  extends ComponentProps<"div">,
+    VariantProps<typeof diffLine> {}
+
+function DiffLineRoot({
+  className,
+  type,
+  children,
+  ...props
+}: DiffLineRootProps) {
   return (
-    <div
-      className={cn(diffLine({ type }), className)}
-      {...props}
-    >
-      <span className={cn(
-        "shrink-0 select-none w-4",
-        type === "added" ? "text-accent-green" : type === "removed" ? "text-accent-red" : "text-zinc-600"
-      )}>
-        {prefix}
-      </span>
-      <code className="flex-1 break-all whitespace-pre-wrap">
-        {code}
-      </code>
-    </div>
+    <DiffLineContext.Provider value={{ type }}>
+      <div className={cn(diffLine({ type }), className)} {...props}>
+        {children}
+      </div>
+    </DiffLineContext.Provider>
   );
 }
+
+export interface DiffLinePrefixProps extends ComponentProps<"span"> {
+  prefix?: string;
+}
+
+function DiffLinePrefix({
+  className,
+  prefix,
+  children,
+  ...props
+}: DiffLinePrefixProps) {
+  const { type } = useDiffLineContext();
+  const defaultPrefix = type === "added" ? "+" : type === "removed" ? "-" : " ";
+
+  return (
+    <span
+      className={cn(
+        "shrink-0 select-none w-4",
+        type === "added"
+          ? "text-accent-green"
+          : type === "removed"
+            ? "text-accent-red"
+            : "text-zinc-600",
+        className,
+      )}
+      {...props}
+    >
+      {children ?? prefix ?? defaultPrefix}
+    </span>
+  );
+}
+
+export interface DiffLineContentProps extends ComponentProps<"code"> {}
+
+function DiffLineContent({
+  className,
+  children,
+  ...props
+}: DiffLineContentProps) {
+  return (
+    <code
+      className={cn("flex-1 break-all whitespace-pre-wrap", className)}
+      {...props}
+    >
+      {children}
+    </code>
+  );
+}
+
+export {
+  DiffLineRoot as Root,
+  DiffLinePrefix as Prefix,
+  DiffLineContent as Content,
+};
