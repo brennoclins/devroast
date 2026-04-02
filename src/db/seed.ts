@@ -2,8 +2,6 @@ import "dotenv/config";
 import { db } from "./index";
 import { issues, submissions } from "./schema";
 
-console.log(process.env.DATABASE_URL);
-
 async function main() {
   console.log("🌱 Seeding database...");
 
