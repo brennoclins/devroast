@@ -1,4 +1,5 @@
 import { CodeInputSection } from "@/components/code-input-section";
+import { StatsSection } from "@/components/stats/stats-section";
 import { Button } from "@/components/ui/button";
 import * as TableRow from "@/components/ui/table-row";
 
@@ -13,6 +14,8 @@ export default function Home() {
           paste your code and let the AI judge your existence.
         </p>
       </section>
+
+      <StatsSection />
 
       <CodeInputSection />
 
